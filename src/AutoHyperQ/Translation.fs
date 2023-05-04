@@ -216,6 +216,7 @@ let convertBooleanProgramInstanceToGNBA (progList : list<BooleanProgram>) (formu
                     | TraceAtom (x, _) -> Some x 
                     | PropAtom _ -> None
                     )
+                |> List.distinct
                 
             relevantAps
             |> List.iter (fun (v, i) ->
@@ -240,6 +241,7 @@ let convertBooleanProgramInstanceToGNBA (progList : list<BooleanProgram>) (formu
                         | TraceAtom _ -> None
                         | PropAtom _ -> None
                         )
+                    |> List.distinct
                     
                 relevantAps
                 |> List.iter (fun (v, j) ->
