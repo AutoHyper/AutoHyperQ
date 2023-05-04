@@ -1,6 +1,14 @@
 # AutoHyperQ: A Model Checker for HyperQPTL
 
 This repository contains AutoHyperQ - a fully-automatic model checker for HyperQPTL on finite-state systems.
+Clone this repository by running
+
+```shell
+git clone https://github.com/autohyper/autohyperq
+cd autohyperq
+git submodule init
+git submodule update
+```
 
 ## Structure 
 
@@ -46,7 +54,7 @@ We already provide a template file `app/paths.json` that *needs to be modified*.
 After having built spot, paste the absolute path to the *autfilt* and *ltl2tgba* executables to the `paths.json` file. 
 For example, if `/usr/bin/autfilt` and `/usr/bin/ltl2tgba` are the *autfilt* and *ltl2tgba* executables, the content of `app/paths.json` should be
 
-```
+```json
 {
     "autfilt": "/usr/bin/autfilt",
     "ltl2tgba": "/usr/bin/ltl2tgba"
@@ -70,7 +78,7 @@ In this section, we first discuss the command-line options of the AutoHyperQ-Fro
 
 The AutoHyperQ-Frontend supports several command-line options.
 We focus on the verification of explicit-state systems by calling
-```
+```shell
 app/Frontend --explicit <systemPath(s)> <propPath>
 ```
 where `<systemPath(s)>` is either a single path to the system or multiple such paths and `<propPath>` is the path to the property.
