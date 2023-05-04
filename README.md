@@ -72,14 +72,14 @@ which should output `UNSAT`.
 
 ## Model Checking with AutoHyperQ
 
-In this section, we first discuss the command-line options of the AutoHyperQ-Frontend (used for HyperQPTL model checking), followed by the structure of supported input. 
+In this section, we first discuss the command-line options of AutoHyperQ, followed by the structure of supported input. 
 
 ### Command-line Arguments
 
-The AutoHyperQ-Frontend supports several command-line options.
+AutoHyperQ supports several command-line options.
 We focus on the verification of explicit-state systems by calling
 ```shell
-app/Frontend --explicit <systemPath(s)> <propPath>
+app/AutoHyperQ --explicit <systemPath(s)> <propPath>
 ```
 where `<systemPath(s)>` is either a single path to the system or multiple such paths and `<propPath>` is the path to the property.
 In case  `<systemPath(s)>` is only a single path, we use the system at this path to resolve all quantifiers. 
