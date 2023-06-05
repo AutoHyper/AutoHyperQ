@@ -82,3 +82,23 @@ let dictToMap (d : Dictionary<'A, 'B>) =
     d 
     |> Seq.map (fun x -> x.Key, x.Value)
     |> Map.ofSeq
+
+module ParserUtil = 
+    open FParsec
+    
+    let escapedStringParser : Parser<string, unit> =
+        let escapedCharParser : Parser<string, unit> =  
+            anyOf "\"\\/bfnrt"
+            |>> fun x -> 
+                match x with
+                | 'b' -> "\b"
+                | 'f' -> "\u000C"
+                | 'n' -> "\n"
+                | 'r' -> "\r"
+                | 't' -> "\t"
+                | c   -> string c
+
+        between
+            (pchar '"')
+            (pchar '"')
+            (stringsSepBy (manySatisfy (fun c -> c <> '"' && c <> '\\')) (pstring "\\" >>. escapedCharParser))

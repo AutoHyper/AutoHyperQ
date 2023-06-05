@@ -40,7 +40,7 @@ let readAndParseHanoiInstance systemInputPaths formulaInputPath  =
             )
 
     let formula =
-        match AutoHyperQCore.HyperQPTL.Parser.parseHyperQPTL AutoHyperQCore.Util.ParserUtil.escapedStringParser propcontent with 
+        match AutoHyperQCore.HyperQPTL.Parser.parseHyperQPTL Util.ParserUtil.escapedStringParser propcontent with 
             | Result.Ok x -> x
             | Result.Error err -> 
                 raise <| AutoHyperQException $"The HyperQPTL formula could not be parsed. %s{err}"
