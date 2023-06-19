@@ -129,20 +129,21 @@ The quantifier prefix `<prefix>` can be one of the following:
 
 where `<TVAR>` is a trace variable and `<PVAR>` is a propositional variable.
 
-### Specifying Explicit-state Transition Systems
+### Specifying Explicit-State Transition Systems
 
 An explicit-state system has the form 
 
 ```
-aps "<AP>" ... "<AP>"
-init <stateID> ... <stateID> 
+AP: "<AP>" ... "<AP>"
+Init: <stateID> ... <stateID> 
 --BODY-- 
 <stateDefinition>
 ...
 <stateDefinition>
+--END--
 ```
 
-Here, `<AP>` is an atomic proposition. This can be any string not containing `"`. Note that all atomic propositions are escaped.
+Here, `<AP>` is an atomic proposition. This can be any string not containing `"`. Note that all atomic propositions are escaped in '"'.
 `<stateID>` is any natural number specifying a state. 
 The header specifies which states are initial (there must be at least one initial state) and which APs are used in the system.
 
@@ -153,31 +154,35 @@ State: <stateID> <apEval>
 ```
 
 It specifies which state we are defining and the evaluation of the atomic propositions in that state. 
-The `<apEval>` has the form `[(t|f) ... (t|f)]` and specifies if each atomic proposition holds (`t`) or does not hold `f`. The length of this list must match the number of atomic propositions listed in the header. 
+The `<apEval>` has the form `{<apIndex> ... <apIndex>}` where `<apIndex>` is a natrual number that identifies one of the provided APs. 
 The second line lists all successors of that state.
 Every state must have at least one successor state.
 
 Consider the following example:
 
 ```
-aps "x" "y"
-init 0 1
+AP: "x" "y"
+Init: 0 1
 --BODY-- 
-State: 0 [f f]
+State: 0 {}
 0 2 3
-State: 1 [f t]
+State: 1 {1}
 0 1 2
-State: 2 [t f]
+State: 2 {0}
 0 2 3
-State: 3 [t t]
+State: 3 {0 1}
 2 3
+--END--
 ```
 
 This specification declares states `0` and  `1` as initial states and `"x"` and `"y"` as APs.
-For each state, we give the evaluation of the atomic propositions as a list of booleans (either `f`, or `t`).
-For example, in state `1`, AP `"x"` does not hold but `"y"` does.
+For each state, we give the evaluation of the atomic propositions by listing the indices of all APs which hold in the given state.
+For example, in state `1`, AP `"x"` (index 0) does not hold but `"y"` (index 1) does.
 Each state lists all successors of that node. 
 For example, the successor states of state `0` are states `0`, `2`, and `3`.
+
+HyperLTL properties on explicit-state systems are specified by using atomic propositions of the form `"<AP>"_<Var>` where `<AP>` is the AP as given in the system, and `<VAR>` is a trace variable from the quantifier prefix. 
+This atomic proposition holds if, in the trace bound to `<VAR>`, the AP `<AP>` holds. 
 
 An example property on the above example system would be:
 
