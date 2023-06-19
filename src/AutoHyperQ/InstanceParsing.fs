@@ -26,24 +26,22 @@ let readAndParseHanoiInstance systemInputPaths formulaInputPath  =
         try 
             File.ReadAllText formulaInputPath
         with 
-            | _ -> 
-                raise <| AutoHyperQException $"Could not open/read file %s{formulaInputPath}"
+        | _ -> raise <| AutoHyperQException $"Could not open/read file %s{formulaInputPath}"
                 
     let tsStringList = 
         systemInputPaths
         |> List.map (fun x -> 
-                try 
-                    File.ReadAllText  x
-                with 
-                    | _ -> 
-                        raise <| AutoHyperQException $"Could not open/read file %s{x}"
-            )
+            try 
+                File.ReadAllText  x
+            with 
+            | _ -> raise <| AutoHyperQException $"Could not open/read file %s{x}"
+        )
 
     let formula =
         match AutoHyperQCore.HyperQPTL.Parser.parseHyperQPTL Util.ParserUtil.escapedStringParser propcontent with 
             | Result.Ok x -> x
             | Result.Error err -> 
-                raise <| AutoHyperQException $"The HyperQPTL formula could not be parsed. %s{err}"
+                raise <| AutoHyperQException $"The HyperQPTL formula could not be parsed: %s{err}"
         
     tsStringList, formula
 
@@ -54,14 +52,13 @@ let readAndParseSymbolicInstance systemInputPaths formulaInputPath =
                 try 
                     File.ReadAllText  x
                 with 
-                    | _ -> 
-                        raise <| AutoHyperQException $"Could not open/read file %s{x}"
+                | _ -> raise <| AutoHyperQException $"Could not open/read file %s{x}"
             )
-        |> List.map (fun s -> 
-            match NuSMV.Parser.parseProgram s with 
-                | Result.Ok x -> x 
-                | Result.Error msg -> 
-                    raise <| AutoHyperQException $"The symbolic system could not be parsed. %s{msg}"
+        |> List.mapi (fun i s -> 
+            match TransitionSystemLib.SymbolicSystem.Parser.parseSymbolicSystem s with 
+            | Result.Ok x -> x 
+            | Result.Error msg -> 
+                raise <| AutoHyperQException $"The %i{i}th symbolic system could not be parsed: %s{msg}"
             )
 
     let propContent = 
@@ -71,7 +68,7 @@ let readAndParseSymbolicInstance systemInputPaths formulaInputPath =
         | _ -> raise <| AutoHyperQException $"Could not open/read file %s{formulaInputPath}"
 
     let formula = 
-        match NuSMV.Parser.parseSymbolicHyperQPTL propContent with
+        match HyperQPTLVariants.Parser.parseSymbolicSystemHyperQPTL propContent with
         | Result.Ok x -> x
         | Result.Error err -> 
             raise <| AutoHyperQException $"The HyperQPTL formula could not be parsed: %s{err}"
@@ -89,11 +86,10 @@ let readAndParseBooleanProgramInstance systemInputPaths formulaInputPath =
                     | _ -> 
                         raise <| AutoHyperQException $"Could not open/read file %s{x}"
             )
-        |> List.map (fun s -> 
-            match BooleanPrograms.Parser.parseBooleanProgram s with 
+        |> List.mapi (fun i s -> 
+            match TransitionSystemLib.BooleanProgramSystem.Parser.parseBooleanProgram s with 
                 | Result.Ok x -> x 
-                | Result.Error msg -> 
-                    raise <| AutoHyperQException $"The boolean program could not be parsed. %s{msg}"
+                | Result.Error msg -> raise <| AutoHyperQException $"The %i{i}th boolean program could not be parsed: %s{msg}"
             )
 
     let propContent = 
@@ -104,7 +100,7 @@ let readAndParseBooleanProgramInstance systemInputPaths formulaInputPath =
 
 
     let formula = 
-        match BooleanPrograms.Parser.parseBooleanProgramHyperQPTL propContent with
+        match HyperQPTLVariants.Parser.parseBooleanProgramHyperQPTL propContent with
         | Result.Ok x -> x
         | Result.Error err -> 
             raise <| AutoHyperQException $"The HyperQPTL formula could not be parsed: %s{err}"
@@ -121,11 +117,11 @@ let readAndParseExplicitInstance systemInputPaths formulaInputPath =
                     | _ -> 
                         raise <| AutoHyperQException $"Could not open/read file %s{x}"
             )
-        |> List.map (fun s -> 
-            match ExplictTransitionSystem.Parser.parseTS s with 
+        |> List.mapi (fun i s -> 
+            match TransitionSystemLib.TransitionSystem.Parser.parseTransitionSystem s with 
                 | Result.Ok x -> x 
                 | Result.Error msg -> 
-                    raise <| AutoHyperQException $"The NuSMV system could not be parsed. %s{msg}"
+                    raise <| AutoHyperQException $"The %i{i}th explicit-state transition system could not be parsed: %s{msg}"
             )
 
     let propContent = 
@@ -136,7 +132,7 @@ let readAndParseExplicitInstance systemInputPaths formulaInputPath =
 
 
     let formula = 
-        match ExplictTransitionSystem.Parser.parseExplictSystemHyperQPTL propContent with
+        match HyperQPTLVariants.Parser.parseExplictStateHyperQPTL propContent with
         | Result.Ok x -> x
         | Result.Error err -> 
             raise <| AutoHyperQException $"The HyperQPTL formula could not be parsed: %s{err}"

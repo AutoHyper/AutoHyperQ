@@ -48,8 +48,6 @@ let private writeFormulaAndSystemString (systemOutputPaths: list<String>) formul
     | _ -> raise <| AutoHyperQException $"Could not write to file %s{formulaOutputPath}"
 
 
-
-
 [<EntryPoint>]
 let main args =
     try 
@@ -61,9 +59,9 @@ let main args =
         sw.Restart()
         let cmdArgs =
             match CommandLineParser.parseCommandLineArguments (Array.toList args) with
-                | Result.Ok x -> x
-                | Result.Error e ->
-                    raise <| AutoHyperQException $"%s{e}"
+            | Result.Ok x -> x
+            | Result.Error e ->
+                raise <| AutoHyperQException $"%s{e}"
 
         let solverConfig = AutoHyperQCore.SolverConfiguration.getConfig()
 

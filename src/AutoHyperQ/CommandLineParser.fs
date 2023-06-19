@@ -20,7 +20,7 @@ module AutoHyperQ.CommandLineParser
 open System
 
 type ExecutionMode = 
-    | HanoiSystem // The native input format
+    | HanoiSystem // The default input format
     | SymbolicSystem
     | BooleanProgramSystem
     | ExplictSystem

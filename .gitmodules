@@ -4,3 +4,6 @@
 [submodule "src/AutoHyperQCore"]
 	path = src/AutoHyperQCore
 	url = https://github.com/ravenbeutner/AutoHyperQCore
+[submodule "src/TransitionSystemLib"]
+	path = src/TransitionSystemLib
+	url = https://github.com/ravenbeutner/TransitionSystemLib

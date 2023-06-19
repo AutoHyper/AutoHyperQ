@@ -6,9 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Util.fs" />
-    <Compile Include="ExplictTransitionSystem.fs" />
-    <Compile Include="BooleanPrograms.fs" />
-    <Compile Include="NuSMV.fs" />
+    <Compile Include="HyperQPTLVariants.fs" />
     <Compile Include="Translation.fs" />
     <Compile Include="InstanceParsing.fs" />
     <Compile Include="CommandLineParser.fs" />
@@ -20,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\FsOmegaLib\FsOmegaLib.fsproj" />
     <ProjectReference Include="..\AutoHyperQCore\AutoHyperQCore.fsproj" />
+    <ProjectReference Include="..\TransitionSystemLib\TransitionSystemLib.fsproj" />
   </ItemGroup>
   <PropertyGroup>
     <OtherFlags>$(OtherFlags) --warnon:1182</OtherFlags>
