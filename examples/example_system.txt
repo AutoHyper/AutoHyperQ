@@ -1,11 +1,12 @@
-aps "x" "y"
-init 0
+AP: "x" "y"
+Init: 0
 --BODY-- 
-State: 0 [f f]
+State: 0 {}
 0
-State: 1 [f t]
+State: 1 {1}
 0 1 2
-State: 2 [t f]
+State: 2 {0}
 0 2 3
-State: 3 [t t]
+State: 3 {0 1}
 2 3
+--END--
