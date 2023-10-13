@@ -350,7 +350,7 @@ let convertHanoiSystemInstanceToGNBA (config : SolverConfiguration) (autoHyperQO
         |> List.map (fun x -> 
             match FsOmegaLib.Operations.AutomatonFromString.convertHoaStringToGNBA autoHyperQOptions.RaiseExceptions config.GetMainPath config.GetAutfiltPath Effort.LOW x with 
             | Success x -> x 
-            | Fail msg -> raise <| AutoHyperQException $"Failure when obtaining GNBA for system: %s{msg}"
+            | Fail msg -> raise <| AutoHyperQException $"Failure when obtaining GNBA for system: %s{msg.Info}"
         )
      
     tsList, formula
