@@ -75,7 +75,7 @@ let parseCommandLineArguments (args : list<String>) =
             match x with 
             | "--hanoi" -> 
                 parseArgumentsRec xs {opt with InputType = HanoiSystem}
-            | "--symbolic" -> 
+            | "--nusmv" -> 
                 parseArgumentsRec xs {opt with InputType = SymbolicSystem}
             | "--explicit" -> 
                 parseArgumentsRec xs {opt with InputType = ExplictSystem}
